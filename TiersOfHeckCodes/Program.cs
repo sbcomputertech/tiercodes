@@ -16,6 +16,8 @@ public class Program
         {
             Encode();
         }
+        Console.WriteLine("\nDone. Press enter to exit");
+        Console.ReadKey();
     }
 
     private static void Decode()
@@ -29,16 +31,35 @@ public class Program
         else
         {
             var json = Decompressor.Decompress(orig);
-            Console.WriteLine("JSON: " + json + "\n");
+            Console.WriteLine("JSON: " + json);
             var tier = TierJson.Deserialize(json);
             
             var enemies = TierJson.TierEnemy.GetAll(tier);
             var modifiers = TierJson.TierModifier.GetAll(tier);
             var weapons = TierJson.TierWeapon.GetAll(tier);
             var map = TierJson.TierMap.Get(tier);
-            var difficultyIncrese = TierJson.TierDifficultyIncrease.Get(tier);
-
-            Console.WriteLine("\nDone");
+            var difficultyIncrease = TierJson.TierDifficultyIncrease.Get(tier);
+            
+            Console.WriteLine("\n-= Enemies =-");
+            foreach (var val in enemies)
+            {
+                Console.WriteLine("name: " + val.name + ", wave: " + val.minWave + ", amount: " + val.cost);
+            }
+            
+            Console.WriteLine("\n-= Modifiers =-");
+            foreach (var val in modifiers)
+            {
+                Console.WriteLine("name: " + val.name + ", level: " + val.level);
+            }
+            
+            Console.WriteLine("\n-= Weapons =-");
+            foreach (var val in weapons)
+            {
+                Console.WriteLine("name: " + val.name + ", rarity: " + val.rarity);
+            }
+            
+            Console.WriteLine("\nMap: " + map.name);
+            Console.WriteLine("\nDifficulty increase threshold: " + difficultyIncrease.threshold);
         }
         
     }
